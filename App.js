@@ -1,9 +1,18 @@
 import React, { Component } from "react";
-import { createStackNavigator, createAppContainer } from "react-navigation";
+import {
+  createStackNavigator,
+  createAppContainer,
+  createBottomTabNavigator
+} from "react-navigation";
+
+import Icon from "react-native-vector-icons/FontAwesome5";
+
 import RestaurantList from "components/RestaurantList";
 import RestaurantInfo from "components/RestaurantInfo";
+import AddReview from "components/AddReview";
+import About from "components/About";
 
-export default createAppContainer(
+const List = createAppContainer(
   createStackNavigator(
     {
       Home: { screen: RestaurantList },
@@ -19,6 +28,47 @@ export default createAppContainer(
         headerTitleStyle: {
           color: "#FFF"
         }
+      }
+    }
+  )
+);
+const Tabs = createAppContainer(
+  createBottomTabNavigator(
+    {
+      List: { screen: List },
+      About: { screen: About }
+    },
+    {
+      defaultNavigationOptions: ({ navigation }) => {
+        return {
+          tabBarIcon: ({ tintColor }) => {
+            const route = navigation.state.routeName;
+            const name = {
+              List: "list",
+              About: "info-circle"
+            }[route];
+            return <Icon name={name} color={tintColor} size={22} />;
+          },
+          tabBarOptions: {
+            activeBackgroundColor: "#E6F0FA"
+          }
+        };
+      }
+    }
+  )
+);
+
+export default createAppContainer(
+  createStackNavigator(
+    {
+      Tabs: { screen: Tabs },
+      AddReview: { screen: AddReview }
+    },
+    {
+      mode: "modal",
+      headerMode: "none",
+      defaultNavigationOptions: {
+        gesturesEnabled: false
       }
     }
   )

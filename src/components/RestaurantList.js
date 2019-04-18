@@ -16,6 +16,7 @@ import RestaurantRow from "components/RestaurantRow";
 import PizzaImage from "images/pizza.png";
 
 export default class RestaurantList extends Component {
+  
   static navigationOptions = {
     header: null
   };
