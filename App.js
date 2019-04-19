@@ -6,6 +6,7 @@ import {
 } from "react-navigation";
 
 import Icon from "react-native-vector-icons/FontAwesome5";
+import SplashScreen from 'react-native-splash-screen'
 
 import RestaurantList from "components/RestaurantList";
 import RestaurantInfo from "components/RestaurantInfo";
@@ -58,7 +59,7 @@ const Tabs = createAppContainer(
   )
 );
 
-export default createAppContainer(
+const ModalNav =  createAppContainer(
   createStackNavigator(
     {
       Tabs: { screen: Tabs },
@@ -73,3 +74,13 @@ export default createAppContainer(
     }
   )
 );
+
+export default class App extends Component {
+  componentDidMount() {
+    SplashScreen.hide()
+  }
+
+  render() {
+    return <ModalNav />
+  }
+}

@@ -5,7 +5,8 @@ import {
   TouchableOpacity,
   StyleSheet,
   TextInput,
-  ActivityIndicator
+  ActivityIndicator,
+  AsyncStorage
 } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -18,8 +19,16 @@ export default class AddReview extends Component {
     submmiting: false
   };
 
+  componentDidMount() {
+    AsyncStorage.getItem("reviewer_name").then(name => {
+      if (name !== null && name !== undefined) this.setState({ name });
+    });
+  }
+
   submitReview = () => {
     this.setState({ submmiting: true });
+    if (this.state.name !== null && this.state.name !== undefined)
+      AsyncStorage.setItem("reviewer_name", this.state.name);
 
     fetch("http://localhost:3000/review", {
       method: "POST",
